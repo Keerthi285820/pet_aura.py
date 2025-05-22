@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Updated dummy cat data
+# Updated cat data with local images
 cats = [
     {
         "id": 1,
@@ -14,7 +14,7 @@ cats = [
         "name": "Persian Cat (White)",
         "price": "₹16,000",
         "desc": "A pure white Persian cat, elegant and extremely friendly.",
-        "img": "https://cdn2.thecatapi.com/images/MTg4NzIyMQ.jpg"
+        "img": "/mnt/data/persian cat white.webp"
     },
     {
         "id": 3,
@@ -32,6 +32,13 @@ cats = [
     },
     {
         "id": 5,
+        "name": "Persian Cat (Brown Fluffy Kitten)",
+        "price": "₹14,500",
+        "desc": "Fluffy brown Persian kitten with big round eyes, playful and cuddly.",
+        "img": "/mnt/data/cat.jpg"
+    },
+    {
+        "id": 6,
         "name": "Maine Coon",
         "price": "₹18,000",
         "desc": "Big, fluffy, and very gentle breed.",
