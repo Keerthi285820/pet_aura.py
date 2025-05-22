@@ -1,23 +1,37 @@
 import streamlit as st
 
-# Dummy cat data
+# Updated dummy cat data
 cats = [
     {
         "id": 1,
-        "name": "Persian Cat",
-        "price": "₹15,000",
-        "desc": "Long-haired, affectionate and quiet breed.",
-        "img": "https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg"
+        "name": "Persian Cat (Grey)",
+        "price": "₹15,500",
+        "desc": "A beautiful grey Persian cat, known for its soft coat and calm demeanor.",
+        "img": "https://cdn2.thecatapi.com/images/MTY3ODIyMQ.jpg"
     },
     {
         "id": 2,
+        "name": "Persian Cat (White)",
+        "price": "₹16,000",
+        "desc": "A pure white Persian cat, elegant and extremely friendly.",
+        "img": "https://cdn2.thecatapi.com/images/MTg4NzIyMQ.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Persian Cat (Black)",
+        "price": "₹15,000",
+        "desc": "A rare and stunning black Persian cat, calm and loyal.",
+        "img": "https://cdn2.thecatapi.com/images/bpc.jpg"
+    },
+    {
+        "id": 4,
         "name": "Siamese Cat",
         "price": "₹12,000",
         "desc": "Sleek, elegant, vocal and affectionate.",
         "img": "https://cdn2.thecatapi.com/images/ai6Jps4sx.jpg"
     },
     {
-        "id": 3,
+        "id": 5,
         "name": "Maine Coon",
         "price": "₹18,000",
         "desc": "Big, fluffy, and very gentle breed.",
@@ -25,10 +39,11 @@ cats = [
     }
 ]
 
-# Navigation
+# Streamlit config
 st.set_page_config(page_title="Petaura - Cat Pet Shop", layout="wide")
 st.title("🐱 Petaura - Cat Pet Shop")
 
+# Initialize session state
 if "page" not in st.session_state:
     st.session_state.page = "home"
 if "selected_cat" not in st.session_state:
@@ -43,16 +58,18 @@ def select_cat(cat):
     st.session_state.selected_cat = cat
     go_to_page("details")
 
-# Sidebar
+# Sidebar Navigation
 st.sidebar.title("Navigation")
 st.sidebar.button("🏠 Home", on_click=lambda: go_to_page("home"))
 st.sidebar.button("🐾 View All Cats", on_click=lambda: go_to_page("catalog"))
 
+# Home Page
 if st.session_state.page == "home":
     st.subheader("Welcome to Petaura 🐾")
     st.markdown("Your one-stop shop for adorable cat companions! Explore and adopt your furry friend today.")
     st.image("https://cdn2.thecatapi.com/images/8b8.jpg", width=600)
 
+# Catalog Page
 elif st.session_state.page == "catalog":
     st.subheader("🐱 Our Cat Collection")
     cols = st.columns(3)
@@ -64,6 +81,7 @@ elif st.session_state.page == "catalog":
             if st.button(f"View Details - {cat['id']}"):
                 select_cat(cat)
 
+# Cat Details Page
 elif st.session_state.page == "details":
     cat = st.session_state.selected_cat
     if cat:
@@ -77,12 +95,15 @@ elif st.session_state.page == "details":
         st.warning("No cat selected. Go back to the catalog.")
         go_to_page("catalog")
 
+# Order Form Page
 elif st.session_state.page == "order":
     st.subheader("🐾 Place Your Order")
     with st.form("order_form"):
         name = st.text_input("Your Name")
         email = st.text_input("Email")
+        phone = st.text_input("Phone Number")
         address = st.text_area("Delivery Address")
+        pricing_method = st.selectbox("Pricing Method", ["Full Payment", "Installments"])
         cat_name = st.session_state.selected_cat["name"] if st.session_state.selected_cat else "Unknown"
         submitted = st.form_submit_button("Confirm Order")
         if submitted:
@@ -90,18 +111,24 @@ elif st.session_state.page == "order":
             st.session_state.customer = {
                 "name": name,
                 "email": email,
+                "phone": phone,
                 "address": address,
+                "pricing_method": pricing_method,
                 "cat": cat_name
             }
             go_to_page("confirmation")
 
+# Order Confirmation Page
 elif st.session_state.page == "confirmation":
     if st.session_state.order_placed:
         customer = st.session_state.customer
         st.success("🎉 Order Placed Successfully!")
         st.markdown(f"**Thank you, {customer['name']}!**")
-        st.markdown(f"You have adopted: **{customer['cat']}**")
-        st.markdown(f"Confirmation sent to: **{customer['email']}**")
+        st.markdown(f"🐱 Adopted Cat: **{customer['cat']}**")
+        st.markdown(f"📧 Email: {customer['email']}")
+        st.markdown(f"📞 Phone: {customer['phone']}")
+        st.markdown(f"🏡 Address: {customer['address']}")
+        st.markdown(f"💳 Pricing Method: **{customer['pricing_method']}**")
         st.markdown("📦 Your furry friend will be on their way soon!")
     else:
         st.warning("No order found.")
