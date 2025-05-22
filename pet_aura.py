@@ -48,7 +48,7 @@ cats = [
 
 # Streamlit config
 st.set_page_config(page_title="Pet Aura - Cat Pet Shop", layout="wide")
-st.title("🐱 Petaura - Cat Pet Shop")
+st.title("🐱 Pet Aura - Cat Pet Shop")
 
 # Initialize session state
 if "page" not in st.session_state:
