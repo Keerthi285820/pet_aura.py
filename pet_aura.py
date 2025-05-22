@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Updated cat data with local images
+# Updated dummy cat data
 cats = [
     {
         "id": 1,
@@ -14,7 +14,7 @@ cats = [
         "name": "Persian Cat (White)",
         "price": "₹16,000",
         "desc": "A pure white Persian cat, elegant and extremely friendly.",
-        "img": "/mnt/data/persian cat white.webp"
+        "img": "https://cdn2.thecatapi.com/images/MTg4NzIyMQ.jpg"
     },
     {
         "id": 3,
@@ -32,13 +32,6 @@ cats = [
     },
     {
         "id": 5,
-        "name": "Persian Cat (Brown Fluffy Kitten)",
-        "price": "₹14,500",
-        "desc": "Fluffy brown Persian kitten with big round eyes, playful and cuddly.",
-        "img": "/mnt/data/cat.jpg"
-    },
-    {
-        "id": 6,
         "name": "Maine Coon",
         "price": "₹18,000",
         "desc": "Big, fluffy, and very gentle breed.",
@@ -47,8 +40,8 @@ cats = [
 ]
 
 # Streamlit config
-st.set_page_config(page_title="Pet Aura - Cat Pet Shop", layout="wide")
-st.title("🐱 Pet Aura - Cat Pet Shop")
+st.set_page_config(page_title="Petaura - Cat Pet Shop", layout="wide")
+st.title("🐱 Petaura - Cat Pet Shop")
 
 # Initialize session state
 if "page" not in st.session_state:
@@ -72,7 +65,7 @@ st.sidebar.button("🐾 View All Cats", on_click=lambda: go_to_page("catalog"))
 
 # Home Page
 if st.session_state.page == "home":
-    st.subheader("Welcome to Pet Aura 🐾")
+    st.subheader("Welcome to Petaura 🐾")
     st.markdown("Your one-stop shop for adorable cat companions! Explore and adopt your furry friend today.")
     st.image("https://cdn2.thecatapi.com/images/8b8.jpg", width=600)
 
@@ -133,3 +126,10 @@ elif st.session_state.page == "confirmation":
         st.markdown(f"**Thank you, {customer['name']}!**")
         st.markdown(f"🐱 Adopted Cat: **{customer['cat']}**")
         st.markdown(f"📧 Email: {customer['email']}")
+        st.markdown(f"📞 Phone: {customer['phone']}")
+        st.markdown(f"🏡 Address: {customer['address']}")
+        st.markdown(f"💳 Pricing Method: **{customer['pricing_method']}**")
+        st.markdown("📦 Your furry friend will be on their way soon!")
+    else:
+        st.warning("No order found.")
+        go_to_page("home")
